@@ -141,7 +141,13 @@ const loadData = () => {
       mockTolerances = dump.tolerances || [];
       mockWorkOrders = dump.workOrders || [];
       mockFlightLogs = dump.flightLogs || [];
-      mockInspections = dump.inspections || [];
+      
+      // Ensure Inspections have a taskNumber even if restored from old backup
+      mockInspections = (dump.inspections || []).map(i => ({
+          ...i,
+          taskNumber: i.taskNumber || i.id // Fallback for old data
+      }));
+
       mockComponents = dump.components || [];
       mockComponentAssets = dump.componentAssets || [];
       mockSystemAlerts = dump.systemAlerts || [];
@@ -206,7 +212,13 @@ export const restoreDatabaseDump = (dump: DatabaseDump): void => {
   mockDocumentTypes = dump.documentTypes || [];
   mockAmps = dump.amps || [];
   mockTolerances = dump.tolerances || [];
-  mockInspections = dump.inspections || [];
+  
+  // Restore inspections ensuring taskNumber exists
+  mockInspections = (dump.inspections || []).map(i => ({
+      ...i,
+      taskNumber: i.taskNumber || i.id
+  }));
+
   mockComponents = dump.components || [];
   mockComponentAssets = dump.componentAssets || [];
 
@@ -370,8 +382,10 @@ export const updateTolerance = (t: Tolerance): void => {
   if (idx !== -1) { mockTolerances[idx] = t; persistData(); }
 };
 export const addInspection = (insp: Inspection): Inspection => {
-  const id = insp.id || generateUUID();
-  const newInspection: Inspection = { ...insp, id };
+  const id = generateUUID(); // Always generate new UUID for system ID
+  // Use provided taskNumber or fallback to what might have been passed as id in legacy logic (though ideally taskNumber is mandatory)
+  const taskNumber = insp.taskNumber || (insp as any).id || "NEW-TASK"; 
+  const newInspection: Inspection = { ...insp, id, taskNumber };
   mockInspections.push(newInspection);
   persistData();
   return newInspection;

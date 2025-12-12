@@ -23,7 +23,7 @@ export function useToast() {
     return context;
 }
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [toasts, setToasts] = useState<Toast[]>([]);
 
     const showToast = useCallback((message: string, type: ToastType = 'info') => {
@@ -70,4 +70,4 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             </div>
         </ToastContext.Provider>
     );
-}
+};

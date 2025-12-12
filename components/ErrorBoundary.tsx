@@ -1,4 +1,3 @@
-
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { resetDatabase } from '../data/mockDatabase';
 import { ArrowPathIcon } from './Icons';

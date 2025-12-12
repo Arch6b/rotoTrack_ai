@@ -239,7 +239,8 @@ export interface InspectionInterval {
 }
 
 export interface Inspection {
-    id: string; // e.g., INSP-B412-001
+    id: string; // Internal UUID
+    taskNumber: string; // Business Key: e.g., "05-20-00-201" - Editable by user
     title: string;
     description: string;
     

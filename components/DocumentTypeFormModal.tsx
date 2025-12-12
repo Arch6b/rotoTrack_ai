@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { DocumentType } from '../types';
 import { XMarkIcon, CheckCircleIcon } from './Icons';
@@ -21,8 +22,6 @@ export const DocumentTypeFormModal: React.FC<DocumentTypeFormModalProps> = ({ is
         const newErrors: Partial<Record<keyof DocumentType, string>> = {};
         if (!docType.code) {
             newErrors.code = 'El Código es obligatorio.';
-        } else if (mode === 'add' && existingIds.some(id => id.toLowerCase() === docType.code.toLowerCase())) {
-            newErrors.code = 'Este Código ya existe.';
         }
         if (!docType.name) {
             newErrors.name = 'El nombre es obligatorio.';
@@ -68,8 +67,7 @@ export const DocumentTypeFormModal: React.FC<DocumentTypeFormModalProps> = ({ is
                             id="code"
                             value={docType.code}
                             onChange={handleChange}
-                            readOnly={mode === 'edit'}
-                            className={`mt-1 block w-full rounded-md bg-gray-700 border-transparent focus:border-sky-500 focus:ring-sky-500 text-white uppercase ${errors.code ? 'border-red-500 ring-red-500' : ''} ${mode === 'edit' ? 'bg-gray-600 cursor-not-allowed' : ''}`}
+                            className={`mt-1 block w-full rounded-md bg-gray-700 border-transparent focus:border-sky-500 focus:ring-sky-500 text-white uppercase ${errors.code ? 'border-red-500 ring-red-500' : ''}`}
                             placeholder="Ej: AFM"
                         />
                         {errors.code && <p className="text-red-400 text-xs mt-1">{errors.code}</p>}

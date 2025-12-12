@@ -4,7 +4,7 @@ import type { Fleet, CustomFactor, FactorDefinition, AMP, ValueType } from '../t
 import { mockFactorDefinitions, mockAmps, mockFleets, mockCertificates } from '../data/mockDatabase';
 import { CheckIcon, XMarkIcon, TagIcon, ChevronUpIcon, ChevronDownIcon, SearchIcon } from './Icons';
 
-type SortableFleetKeys = 'id' | 'name' | 'numMotors' | 'status' | 'lastModifiedDate';
+type SortableFleetKeys = 'name' | 'numMotors' | 'status' | 'lastModifiedDate';
 
 interface FleetManagementProps {
     onEditFleet: (fleet: Fleet) => void;
@@ -61,7 +61,6 @@ export const FleetManagement: React.FC<FleetManagementProps> = ({ onEditFleet, o
                 });
 
                 return (
-                    fleet.id.toLowerCase().includes(searchTerm) ||
                     fleet.name.toLowerCase().includes(searchTerm) ||
                     (amp && amp.name.toLowerCase().includes(searchTerm)) ||
                     fleet.notes.toLowerCase().includes(searchTerm) ||
@@ -153,7 +152,6 @@ export const FleetManagement: React.FC<FleetManagementProps> = ({ onEditFleet, o
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                             <tr>
-                                <SortableHeader sortKey="id">ID Flota</SortableHeader>
                                 <SortableHeader sortKey="name">Nombre</SortableHeader>
                                 <th scope="col" className="px-6 py-3">Certificado Tipo (TC)</th>
                                 <th scope="col" className="px-6 py-3">AMP Aplicable</th>
@@ -173,7 +171,6 @@ export const FleetManagement: React.FC<FleetManagementProps> = ({ onEditFleet, o
 
                                 return (
                                     <tr key={fleet.id} className="hover:bg-gray-700/40 transition-colors">
-                                        <td className="px-6 py-4 font-mono text-sky-400">{fleet.id}</td>
                                         <td className="px-6 py-4 font-medium text-white">{fleet.name}</td>
                                         <td className={`px-6 py-4 font-mono transition-colors ${tc ? 'text-emerald-400' : 'text-red-400 font-semibold'}`}>
                                             {tc ? tc.tcds : 'Sin Asignar'}

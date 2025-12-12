@@ -16,8 +16,8 @@ import { InspectionEditModal } from './InspectionEditModal';
 import { ComponentEditModal } from './ComponentEditModal';
 
 type View = 'documents' | 'inspections' | 'catalog' | 'certificates' | 'review';
-type SortableCertificateKeys = 'id' | 'type' | 'holder' | 'tcds' | 'revision' | 'revisionDate' | 'lastWebCheckDate';
-type SortableDocumentKeys = 'id' | 'docType' | 'title' | 'revision' | 'revisionDate' | 'status' | 'lastWebCheckDate' | 'implementationDeadline';
+type SortableCertificateKeys = 'type' | 'holder' | 'tcds' | 'revision' | 'revisionDate' | 'lastWebCheckDate';
+type SortableDocumentKeys = 'docType' | 'title' | 'revision' | 'revisionDate' | 'status' | 'lastWebCheckDate' | 'implementationDeadline';
 
 const certificateTypeColorMap = { TC: 'bg-sky-900 text-sky-300', STC: 'bg-amber-900 text-amber-300', };
 const documentStatusColorMap = { Active: 'bg-green-900 text-green-300', Superseded: 'bg-gray-700 text-gray-400', Draft: 'bg-yellow-900 text-yellow-300',};
@@ -269,9 +269,8 @@ export const DocumentationManagement: React.FC = () => {
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                             <tr>
-                                <SortableHeader sortKey="id" type="certificates">ID Cert.</SortableHeader>
-                                <SortableHeader sortKey="type" type="certificates">Tipo</SortableHeader>
                                 <SortableHeader sortKey="tcds" type="certificates">Referencia</SortableHeader>
+                                <SortableHeader sortKey="type" type="certificates">Tipo</SortableHeader>
                                 <SortableHeader sortKey="revision" type="certificates">Rev.</SortableHeader>
                                 <SortableHeader sortKey="revisionDate" type="certificates">Fecha Rev.</SortableHeader>
                                 <th scope="col" className="px-6 py-3">Links</th>
@@ -285,9 +284,8 @@ export const DocumentationManagement: React.FC = () => {
                         <tbody className="divide-y divide-gray-700">
                             {processedCertificates.map(cert => (
                                 <tr key={cert.id} className="hover:bg-gray-700/40 transition-colors">
-                                    <td className="px-6 py-4 font-mono text-sky-400">{cert.id}</td>
+                                    <td className="px-6 py-4 font-mono font-bold text-sky-400">{cert.tcds}</td>
                                     <td className="px-6 py-4"><span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${certificateTypeColorMap[cert.type]}`}>{cert.type}</span></td>
-                                    <td className="px-6 py-4 font-mono">{cert.tcds}</td>
                                     <td className="px-6 py-4 text-center">{cert.revision}</td>
                                     <td className="px-6 py-4">{cert.revisionDate}</td>
                                     <td className="px-6 py-4"><div className="flex items-center gap-4">{cert.officialLink && <a href={cert.officialLink} target="_blank" rel="noopener noreferrer" title="Enlace Oficial (Web)"><WorldIcon className="h-5 w-5 text-gray-400 hover:text-sky-400"/></a>}{cert.internalLink && <a href={cert.internalLink} target="_blank" rel="noopener noreferrer" title="Enlace Interno (Documento)"><LinkIcon className="h-5 w-5 text-gray-400 hover:text-sky-400"/></a>}</div></td>
@@ -343,12 +341,11 @@ export const DocumentationManagement: React.FC = () => {
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                             <tr>
-                                <SortableHeader sortKey="id" type="documents">ID Doc.</SortableHeader>
+                                <SortableHeader sortKey="docType" type="documents">Tipo</SortableHeader>
+                                <SortableHeader sortKey="title" type="documents">Título</SortableHeader>
                                 <SortableHeader sortKey="revision" type="documents">Rev.</SortableHeader>
                                 <SortableHeader sortKey="revisionDate" type="documents">Fecha Rev.</SortableHeader>
                                 <th scope="col" className="px-6 py-3">Links</th>
-                                <SortableHeader sortKey="docType" type="documents">Tipo</SortableHeader>
-                                <SortableHeader sortKey="title" type="documents">Título</SortableHeader>
                                 <th scope="col" className="px-6 py-3">Certs. Vinculados</th>
                                 <th scope="col" className="px-6 py-3">Flotas</th>
                                 <SortableHeader sortKey="lastWebCheckDate" type="documents">Últ. Check</SortableHeader>
@@ -367,12 +364,11 @@ export const DocumentationManagement: React.FC = () => {
 
                                 return (
                                 <tr key={doc.id} className="hover:bg-gray-700/40 transition-colors">
-                                    <td className="px-6 py-4 font-mono">{doc.id}</td>
+                                    <td className="px-6 py-4"><span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-900 text-blue-300" title={typeDef?.name}>{doc.docType}</span></td>
+                                    <td className="px-6 py-4 font-medium text-white max-w-xs truncate" title={doc.title}>{doc.title}</td>
                                     <td className="px-6 py-4 text-center">{doc.revision}</td>
                                     <td className="px-6 py-4">{doc.revisionDate}</td>
                                     <td className="px-6 py-4"><div className="flex items-center gap-4">{doc.officialLink && <a href={doc.officialLink} target="_blank" rel="noopener noreferrer" title="Enlace Oficial (Web)"><WorldIcon className="h-5 w-5 text-gray-400 hover:text-sky-400"/></a>}{doc.internalLink && <a href={doc.internalLink} target="_blank" rel="noopener noreferrer" title="Enlace Interno (Documento)"><LinkIcon className="h-5 w-5 text-gray-400 hover:text-sky-400"/></a>}</div></td>
-                                    <td className="px-6 py-4"><span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-900 text-blue-300" title={typeDef?.name}>{doc.docType}</span></td>
-                                    <td className="px-6 py-4 font-medium text-white max-w-xs truncate" title={doc.title}>{doc.title}</td>
                                     <td className="px-6 py-4 font-mono text-sky-400">
                                         <div className="flex flex-col gap-1">
                                             {certs.length > 0 ? certs.map(c => <span key={c.id} title={c.holder}>{c.tcds}</span>) : <span className="text-red-400">Sin Cert.</span>}

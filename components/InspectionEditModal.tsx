@@ -12,8 +12,8 @@ interface InspectionEditModalProps {
     inspection: Inspection | null;
 }
 
-const emptyInspection: Omit<Inspection, 'lastModifiedBy' | 'lastModifiedDate'> = {
-    id: '',
+const emptyInspection: Omit<Inspection, 'lastModifiedBy' | 'lastModifiedDate' | 'id'> & { id?: string } = {
+    taskNumber: '', // Business key editable by user
     title: '',
     description: '',
     sourceDocumentIds: [],
@@ -34,7 +34,7 @@ const emptyInspection: Omit<Inspection, 'lastModifiedBy' | 'lastModifiedDate'> =
 type ModalTab = 'definition' | 'applicability';
 
 export const InspectionEditModal: React.FC<InspectionEditModalProps> = ({ isOpen, onClose, onSave, inspection }) => {
-    const [data, setData] = useState<Omit<Inspection, 'lastModifiedBy' | 'lastModifiedDate'>>(emptyInspection);
+    const [data, setData] = useState<Omit<Inspection, 'lastModifiedBy' | 'lastModifiedDate'>>(inspection || { ...emptyInspection, id: '' });
     const [activeTab, setActiveTab] = useState<ModalTab>('definition');
     
     // File Upload State
@@ -47,9 +47,10 @@ export const InspectionEditModal: React.FC<InspectionEditModalProps> = ({ isOpen
     useEffect(() => {
         if (isOpen) {
             // Ensure array fields exist when editing legacy data
-            const initial = inspection || emptyInspection;
+            const initial = inspection ? { ...inspection } : { ...emptyInspection, id: '' };
             setData({
                 ...initial,
+                taskNumber: initial.taskNumber || '', // Ensure taskNumber is present
                 sourceDocumentIds: initial.sourceDocumentIds || [],
                 applicableAircraftSNs: initial.applicableAircraftSNs || [],
                 applicablePartNumbers: initial.applicablePartNumbers || [],
@@ -216,8 +217,8 @@ export const InspectionEditModal: React.FC<InspectionEditModalProps> = ({ isOpen
     );
 
     const handleSubmit = () => {
-        if (!data.id || !data.title || !data.ampId || !data.sourceDocumentIds || data.sourceDocumentIds.length === 0) {
-            alert("Por favor complete los campos obligatorios (ID, Título, Documento, AMP).");
+        if (!data.taskNumber || !data.title || !data.ampId || !data.sourceDocumentIds || data.sourceDocumentIds.length === 0) {
+            alert("Por favor complete los campos obligatorios (ID Tarea, Título, Documento, AMP).");
             return;
         }
         const selectedAmp = mockAmps.find(a => a.id === data.ampId);
@@ -263,7 +264,14 @@ export const InspectionEditModal: React.FC<InspectionEditModalProps> = ({ isOpen
                             <div className="space-y-5 flex flex-col">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300">ID Tarea (Task Number)</label>
-                                    <input type="text" value={data.id} onChange={e => handleFieldChange('id', e.target.value)} readOnly={!!inspection} className={`mt-1 block w-full rounded-md bg-gray-700 text-white ${inspection ? 'cursor-not-allowed bg-gray-600' : ''}`} placeholder="Ej: 05-20-00-201" />
+                                    <input 
+                                        type="text" 
+                                        value={data.taskNumber} 
+                                        onChange={e => handleFieldChange('taskNumber', e.target.value)} 
+                                        className="mt-1 block w-full rounded-md bg-gray-700 text-white focus:border-sky-500 focus:ring-sky-500 font-mono" 
+                                        placeholder="Ej: 05-20-00-201" 
+                                    />
+                                    {inspection && <span className="text-xs text-gray-500 mt-1">ID Interno Sistema: {data.id}</span>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300">Título / Descripción Corta</label>
@@ -338,7 +346,7 @@ export const InspectionEditModal: React.FC<InspectionEditModalProps> = ({ isOpen
                                         <label className="block text-sm font-medium text-gray-300">Estado</label>
                                         <select value={data.status} onChange={e => handleFieldChange('status', e.target.value)} className="mt-1 block w-full rounded-md bg-gray-700 text-white border-transparent focus:border-sky-500 focus:ring-sky-500">
                                             <option value="Active">Activo</option>
-                                            <option value="Inactive">Inactivo</option>
+                                            <option value="Inactive">Inactiva</option>
                                         </select>
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ import { mockComponents, addComponent, updateComponent, mockDocuments, mockAmps 
 import { TagIcon, SearchIcon, ChevronUpIcon, ChevronDownIcon, LinkIcon, BookOpenIcon, FunnelIcon } from './Icons';
 import { ComponentEditModal } from './ComponentEditModal';
 
-type SortableComponentKeys = 'id' | 'partNumber' | 'description' | 'status' | 'lastModifiedDate';
+type SortableComponentKeys = 'partNumber' | 'description' | 'status' | 'lastModifiedDate';
 
 export const ComponentManagement: React.FC = () => {
     const [components, setComponents] = useState<Component[]>(mockComponents);
@@ -14,7 +14,6 @@ export const ComponentManagement: React.FC = () => {
     
     // Column Filters
     const [filters, setFilters] = useState({
-        id: '',
         partNumber: '',
         description: '',
         ampIds: '',
@@ -58,7 +57,6 @@ export const ComponentManagement: React.FC = () => {
             const docsString = (c.sourceDocumentIds || []).map(id => mockDocuments.find(d => d.id === id)?.title || id).join(' ').toLowerCase();
 
             return (
-                c.id.toLowerCase().includes(filters.id.toLowerCase()) &&
                 c.partNumber.toLowerCase().includes(filters.partNumber.toLowerCase()) &&
                 (c.description.toLowerCase().includes(filters.description.toLowerCase()) || c.notes.toLowerCase().includes(filters.description.toLowerCase())) &&
                 ampsString.includes(filters.ampIds.toLowerCase()) &&
@@ -170,7 +168,6 @@ export const ComponentManagement: React.FC = () => {
                         <table className="min-w-full text-sm text-left text-gray-300">
                             <thead className="bg-gray-900/50 border-b border-gray-600">
                                 <tr>
-                                    <SortableHeader label="ID Interno" sortKey="id" filterKey="id" placeholder="Ej: COMP-001" />
                                     <SortableHeader label="Part Number" sortKey="partNumber" filterKey="partNumber" placeholder="Buscar P/N..." />
                                     <SortableHeader label="Descripción / Notas" sortKey="description" filterKey="description" placeholder="Buscar texto..." />
                                     <SortableHeader label="AMPs Asignados" filterKey="ampIds" placeholder="Nombre AMP" />
@@ -182,7 +179,7 @@ export const ComponentManagement: React.FC = () => {
                             <tbody className="divide-y divide-gray-700">
                                 {processedComponents.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="px-6 py-8 text-center text-gray-500 italic">
+                                        <td colSpan={6} className="px-6 py-8 text-center text-gray-500 italic">
                                             No se encontraron componentes que coincidan con los filtros.
                                         </td>
                                     </tr>
@@ -192,7 +189,6 @@ export const ComponentManagement: React.FC = () => {
                                         const assignedAmps = (item.ampIds || []).map(id => mockAmps.find(a => a.id === id)).filter(Boolean);
 
                                         return <tr key={item.id} className="hover:bg-gray-700/40 transition-colors">
-                                            <td className="px-4 py-3 font-mono text-gray-400 text-xs">{item.id}</td>
                                             <td className="px-4 py-3 font-bold text-sky-400 font-mono whitespace-nowrap">{item.partNumber}</td>
                                             <td className="px-4 py-3">
                                                 <div className="font-medium text-white">{item.description}</div>

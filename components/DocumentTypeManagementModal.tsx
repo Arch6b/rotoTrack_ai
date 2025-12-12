@@ -80,7 +80,7 @@ export const DocumentTypeManagementModal: React.FC<DocumentTypeManagementModalPr
     };
 
     const displayedTypes = useMemo(() => {
-        const sorted = [...localTypes].sort((a, b) => a.id.localeCompare(b.id));
+        const sorted = [...localTypes].sort((a, b) => a.code.localeCompare(b.code));
         if (showInactive) {
             return sorted;
         }
@@ -124,7 +124,7 @@ export const DocumentTypeManagementModal: React.FC<DocumentTypeManagementModalPr
                                 <table className="min-w-full text-sm text-left text-gray-300">
                                     <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3">ID</th>
+                                            <th scope="col" className="px-6 py-3">Código</th>
                                             <th scope="col" className="px-6 py-3">Nombre</th>
                                             <th scope="col" className="px-6 py-3">Descripción</th>
                                             {showInactive && <th scope="col" className="px-6 py-3">Estado</th>}
@@ -138,7 +138,7 @@ export const DocumentTypeManagementModal: React.FC<DocumentTypeManagementModalPr
                                             const isInUse = usageCount > 0;
                                             return (
                                                 <tr key={type.id} className="hover:bg-gray-700/40 transition-colors">
-                                                    <td className="px-6 py-4 font-mono text-sky-400">{type.id}</td>
+                                                    <td className="px-6 py-4 font-mono text-sky-400 font-bold">{type.code}</td>
                                                     <td className="px-6 py-4 font-medium text-white">{type.name}</td>
                                                     <td className="px-6 py-4 text-gray-400 max-w-sm truncate">{type.description}</td>
                                                     {showInactive && (

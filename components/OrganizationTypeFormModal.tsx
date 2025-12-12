@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { OrganizationType } from '../types';
 import { XMarkIcon, CheckCircleIcon } from './Icons';
@@ -21,8 +22,6 @@ export const OrganizationTypeFormModal: React.FC<OrganizationTypeFormModalProps>
         const newErrors: Partial<Record<keyof OrganizationType, string>> = {};
         if (!orgType.code) {
             newErrors.code = 'El Código es obligatorio.';
-        } else if (mode === 'add' && existingIds.some(id => id.toLowerCase() === orgType.code.toLowerCase())) {
-            newErrors.code = 'Este Código ya existe.';
         }
         if (!orgType.name) {
             newErrors.name = 'El nombre es obligatorio.';
@@ -71,8 +70,7 @@ export const OrganizationTypeFormModal: React.FC<OrganizationTypeFormModalProps>
                             id="code"
                             value={orgType.code}
                             onChange={handleChange}
-                            readOnly={mode === 'edit'}
-                            className={`mt-1 block w-full rounded-md bg-gray-700 border-transparent focus:border-sky-500 focus:ring-sky-500 text-white uppercase ${errors.code ? 'border-red-500 ring-red-500' : ''} ${mode === 'edit' ? 'bg-gray-600 cursor-not-allowed' : ''}`}
+                            className={`mt-1 block w-full rounded-md bg-gray-700 border-transparent focus:border-sky-500 focus:ring-sky-500 text-white uppercase ${errors.code ? 'border-red-500 ring-red-500' : ''}`}
                             placeholder="Ej: CAMO"
                         />
                         {errors.code && <p className="text-red-400 text-xs mt-1">{errors.code}</p>}

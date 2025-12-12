@@ -4,7 +4,7 @@ import type { AMP, Fleet } from '../types';
 import { mockAmps, mockFleets } from '../data/mockDatabase';
 import { ChevronUpIcon, ChevronDownIcon, SearchIcon, BookOpenIcon, WorldIcon, LinkIcon, CalendarDaysIcon } from './Icons';
 
-type SortableAmpKeys = 'id' | 'name' | 'revision' | 'status' | 'revisionDate' | 'lastModifiedDate' | 'nextReviewDate';
+type SortableAmpKeys = 'name' | 'revision' | 'status' | 'revisionDate' | 'lastModifiedDate' | 'nextReviewDate';
 
 const ampStatusColorMap: { [key in NonNullable<AMP['status']>]: string } = {
     Active: 'bg-green-900 text-green-300',
@@ -123,7 +123,6 @@ export const AmpManagementView: React.FC<AmpManagementViewProps> = ({ onEditAmp 
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                             <tr>
-                                <SortableHeader sortKey="id">ID</SortableHeader>
                                 <SortableHeader sortKey="name">Nombre</SortableHeader>
                                 <SortableHeader sortKey="revision">Rev.</SortableHeader>
                                 <SortableHeader sortKey="revisionDate">Fecha Rev.</SortableHeader>
@@ -141,7 +140,6 @@ export const AmpManagementView: React.FC<AmpManagementViewProps> = ({ onEditAmp 
                                 const dateStatus = isDateApproaching(amp.nextReviewDate);
                                 return (
                                     <tr key={amp.id} className="hover:bg-gray-700/40">
-                                        <td className="px-6 py-4 font-mono text-sky-400">{amp.id}</td>
                                         <td className="px-6 py-4 font-medium text-white">{amp.name}</td>
                                         <td className="px-6 py-4 text-center">{amp.revision}</td>
                                         <td className="px-6 py-4">{amp.revisionDate}</td>

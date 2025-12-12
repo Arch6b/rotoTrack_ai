@@ -5,7 +5,7 @@ import { mockInspections, mockDocuments, mockAmps, mockFactorDefinitions, addIns
 import { InspectionsIcon, ChevronUpIcon, ChevronDownIcon, FunnelIcon } from './Icons';
 import { InspectionEditModal } from './InspectionEditModal';
 
-type SortableInspectionKeys = 'id' | 'title' | 'ampId' | 'status' | 'lastModifiedDate';
+type SortableInspectionKeys = 'taskNumber' | 'title' | 'ampId' | 'status' | 'lastModifiedDate';
 
 export const InspectionManagement: React.FC = () => {
     // Inspection State
@@ -15,7 +15,7 @@ export const InspectionManagement: React.FC = () => {
     
     // Column Filters
     const [filters, setFilters] = useState({
-        id: '',
+        taskNumber: '',
         title: '',
         documentReference: '',
         ampId: '',
@@ -75,7 +75,7 @@ export const InspectionManagement: React.FC = () => {
             const ampName = amp ? amp.name.toLowerCase() : '';
 
             return (
-                i.id.toLowerCase().includes(filters.id.toLowerCase()) &&
+                i.taskNumber.toLowerCase().includes(filters.taskNumber.toLowerCase()) &&
                 (i.title.toLowerCase().includes(filters.title.toLowerCase()) || i.description.toLowerCase().includes(filters.title.toLowerCase())) &&
                 i.documentReference.toLowerCase().includes(filters.documentReference.toLowerCase()) &&
                 ampName.includes(filters.ampId.toLowerCase()) &&
@@ -187,7 +187,7 @@ export const InspectionManagement: React.FC = () => {
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-900/50 border-b border-gray-600">
                             <tr>
-                                <SortableHeader label="ID Tarea" sortKey="id" filterKey="id" placeholder="Ej: 05-20..." />
+                                <SortableHeader label="Ref. Tarea (Task No.)" sortKey="taskNumber" filterKey="taskNumber" placeholder="Ej: 05-20..." />
                                 <SortableHeader label="Descripción / Título" sortKey="title" filterKey="title" placeholder="Buscar texto..." />
                                 <SortableHeader label="Referencia Doc." filterKey="documentReference" placeholder="Ref. AMM/AD" />
                                 <SortableHeader label="AMP" sortKey="ampId" filterKey="ampId" placeholder="Nombre AMP" />
@@ -216,7 +216,7 @@ export const InspectionManagement: React.FC = () => {
 
                                     return (
                                         <tr key={item.id} className="hover:bg-gray-700/40 transition-colors">
-                                            <td className="px-4 py-3 font-mono text-sky-400 font-medium whitespace-nowrap">{item.id}</td>
+                                            <td className="px-4 py-3 font-mono text-sky-400 font-medium whitespace-nowrap">{item.taskNumber}</td>
                                             <td className="px-4 py-3">
                                                 <div className="font-medium text-white">{item.title}</div>
                                                 {item.description && <div className="text-xs text-gray-400 truncate max-w-xs" title={item.description}>{item.description}</div>}

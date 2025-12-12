@@ -1,9 +1,10 @@
+
 import React, { useState, useMemo } from 'react';
 import type { Organization } from '../types';
 import { mockOrganizations, mockOrganizationTypes } from '../data/mockDatabase';
 import { ChevronUpIcon, ChevronDownIcon, SearchIcon, BriefcaseIcon, LinkIcon } from './Icons';
 
-type SortableOrgKeys = 'id' | 'name' | 'typeId' | 'approval' | 'status';
+type SortableOrgKeys = 'name' | 'typeId' | 'approval' | 'status';
 
 const typeColorMap: { [key: string]: string } = {
     CAMO: 'bg-green-900 text-green-300',
@@ -118,7 +119,6 @@ export const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ 
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                             <tr>
-                                <SortableHeader sortKey="id">ID</SortableHeader>
                                 <SortableHeader sortKey="name">Nombre</SortableHeader>
                                 <SortableHeader sortKey="typeId">Tipo</SortableHeader>
                                 <SortableHeader sortKey="approval">Aprobación</SortableHeader>
@@ -133,7 +133,6 @@ export const OrganizationManagement: React.FC<OrganizationManagementProps> = ({ 
                                 const colorClass = orgType ? typeColorMap[orgType.id] || typeColorMap.default : typeColorMap.default;
                                 return (
                                 <tr key={org.id} className="hover:bg-gray-700/40 transition-colors">
-                                    <td className="px-6 py-4 font-mono text-sky-400">{org.id}</td>
                                     <td className="px-6 py-4 font-medium text-white">{org.name}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${colorClass}`}>

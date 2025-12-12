@@ -5,7 +5,7 @@ import { mockWorkOrders, mockOrganizations, mockDocuments, addWorkOrder, updateW
 import { ChevronUpIcon, ChevronDownIcon, SearchIcon, ClipboardDocumentListIcon, LinkIcon } from './Icons';
 import { WorkOrderFormModal } from './WorkOrderFormModal';
 
-type SortableWorkOrderKeys = 'id' | 'title' | 'aircraftRegistration' | 'status' | 'type' | 'priority' | 'creationDate' | 'dueDate';
+type SortableWorkOrderKeys = 'title' | 'aircraftRegistration' | 'status' | 'type' | 'priority' | 'creationDate' | 'dueDate';
 
 const statusColorMap: { [key in WorkOrder['status']]: string } = {
     Open: 'bg-blue-900 text-blue-300',
@@ -127,7 +127,6 @@ export const WorkOrderManagement: React.FC = () => {
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                             <tr>
-                                <SortableHeader sortKey="id">ID OT</SortableHeader>
                                 <SortableHeader sortKey="status">Estado</SortableHeader>
                                 <SortableHeader sortKey="priority">Prioridad</SortableHeader>
                                 <SortableHeader sortKey="title">Título / Tarea</SortableHeader>
@@ -140,7 +139,7 @@ export const WorkOrderManagement: React.FC = () => {
                         <tbody className="divide-y divide-gray-700">
                             {processedWorkOrders.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
+                                    <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
                                         No hay órdenes de trabajo registradas. Crea una nueva para comenzar.
                                     </td>
                                 </tr>
@@ -151,7 +150,6 @@ export const WorkOrderManagement: React.FC = () => {
 
                                     return (
                                         <tr key={wo.id} className="hover:bg-gray-700/40">
-                                            <td className="px-6 py-4 font-mono text-sky-400">{wo.id}</td>
                                             <td className="px-6 py-4">
                                                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColorMap[wo.status]}`}>
                                                     {wo.status}

@@ -83,7 +83,7 @@ export const FactorManagementModal: React.FC<FactorManagementModalProps> = ({ is
     };
 
     const displayedFactors = useMemo(() => {
-        const sorted = [...localFactors].sort((a, b) => a.id.localeCompare(b.id));
+        const sorted = [...localFactors].sort((a, b) => a.code.localeCompare(b.code));
         if (showInactive) {
             return sorted;
         }
@@ -127,7 +127,7 @@ export const FactorManagementModal: React.FC<FactorManagementModalProps> = ({ is
                                 <table className="min-w-full text-sm text-left text-gray-300">
                                     <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3">ID (Clave)</th>
+                                            <th scope="col" className="px-6 py-3">Código</th>
                                             <th scope="col" className="px-6 py-3">Nombre del Factor</th>
                                             <th scope="col" className="px-6 py-3">Tipo de Valor</th>
                                             {showInactive && <th scope="col" className="px-6 py-3">Estado</th>}
@@ -141,7 +141,7 @@ export const FactorManagementModal: React.FC<FactorManagementModalProps> = ({ is
                                             const isInUse = usageCount > 0;
                                             return (
                                                 <tr key={def.id} className="hover:bg-gray-700/40 transition-colors">
-                                                    <td className="px-6 py-4 font-mono text-sky-400">{def.id}</td>
+                                                    <td className="px-6 py-4 font-mono text-sky-400 font-bold">{def.code}</td>
                                                     <td className="px-6 py-4 font-medium text-white">{def.name}</td>
                                                     <td className="px-6 py-4">
                                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${valueTypeClasses[def.valueType] || valueTypeClasses.string}`}>

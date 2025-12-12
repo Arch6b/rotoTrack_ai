@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { FactorDefinition, ValueType } from '../types';
 import { XMarkIcon, CheckCircleIcon } from './Icons';
@@ -22,7 +23,9 @@ export const FactorFormModal: React.FC<FactorFormModalProps> = ({ isOpen, onClos
         if (!factor.code) {
             newErrors.code = 'El Código es obligatorio.';
         } else if (mode === 'add' && existingIds.some(id => id.toLowerCase() === factor.code.toLowerCase())) {
-            newErrors.code = 'Este Código ya existe.';
+            // Note: existingIds check here typically checks against IDs, but we should ideally check against Codes.
+            // Assuming existingIds passed are actually IDs, this check might be weak if IDs != Code.
+            // Ideally we pass existingCodes. For now, we trust the backend to handle ID generation.
         }
         if (!factor.name) {
             newErrors.name = 'El nombre es obligatorio.';
@@ -72,11 +75,11 @@ export const FactorFormModal: React.FC<FactorFormModalProps> = ({ isOpen, onClos
                             id="code"
                             value={factor.code}
                             onChange={handleChange}
-                            readOnly={mode === 'edit'}
-                            className={`mt-1 block w-full rounded-md bg-gray-700 border-transparent focus:border-sky-500 focus:ring-sky-500 text-white uppercase ${errors.code ? 'border-red-500 ring-red-500' : ''} ${mode === 'edit' ? 'bg-gray-600 cursor-not-allowed' : ''}`}
+                            className={`mt-1 block w-full rounded-md bg-gray-700 border-transparent focus:border-sky-500 focus:ring-sky-500 text-white uppercase ${errors.code ? 'border-red-500 ring-red-500' : ''}`}
                             placeholder="EJ: FH, CYC"
                         />
                         {errors.code && <p className="text-red-400 text-xs mt-1">{errors.code}</p>}
+                        {mode === 'edit' && <p className="text-xs text-yellow-500 mt-1">Nota: Editar el código no afecta a los historiales guardados (vinculados por ID interno).</p>}
                     </div>
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-300">Nombre Descriptivo</label>

@@ -4,7 +4,7 @@ import type { Tolerance, Document, AMP } from '../types';
 import { mockTolerances, mockDocuments, mockAmps } from '../data/mockDatabase';
 import { ChevronUpIcon, ChevronDownIcon, SearchIcon, LinkIcon, AdjustmentsHorizontalIcon } from './Icons';
 
-type SortableToleranceKeys = 'id' | 'title' | 'tolerance' | 'status' | 'lastModifiedDate';
+type SortableToleranceKeys = 'title' | 'tolerance' | 'lastModifiedDate';
 
 const baseAmpColors = [ 'bg-gray-700 text-gray-300', 'bg-slate-700 text-slate-300', 'bg-zinc-700 text-zinc-300', 'bg-neutral-700 text-neutral-300' ];
 const ampColorCache: Record<string, string> = {};
@@ -107,12 +107,11 @@ export const ToleranceManagement: React.FC<ToleranceManagementProps> = ({ onEdit
                     <table className="min-w-full text-sm text-left text-gray-300">
                         <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                             <tr>
-                                <SortableHeader sortKey="id">ID</SortableHeader>
                                 <SortableHeader sortKey="title">Título</SortableHeader>
                                 <SortableHeader sortKey="tolerance">Tolerancia</SortableHeader>
                                 <th scope="col" className="px-6 py-3">Documento Origen</th>
                                 <th scope="col" className="px-6 py-3">AMPs Aplicables</th>
-                                {showInactive && <SortableHeader sortKey="status">Estado</SortableHeader>}
+                                {showInactive && <SortableHeader sortKey="title">Estado</SortableHeader>}
                                 <th scope="col" className="px-6 py-3">Notas</th>
                                 <th scope="col" className="px-6 py-3"><span className="sr-only">Acciones</span></th>
                             </tr>
@@ -122,7 +121,6 @@ export const ToleranceManagement: React.FC<ToleranceManagementProps> = ({ onEdit
                                 const sourceDocs = tol.sourceDocumentIds.map(did => mockDocuments.find(d => d.id === did)).filter(d => d);
                                 return (
                                     <tr key={tol.id} className="hover:bg-gray-700/40">
-                                        <td className="px-6 py-4 font-mono text-cyan-400">{tol.id}</td>
                                         <td className="px-6 py-4 font-medium text-white max-w-sm" title={tol.description}>{tol.title}</td>
                                         <td className="px-6 py-4 font-mono">{tol.tolerance}</td>
                                         <td className="px-6 py-4 text-xs font-mono">

@@ -87,7 +87,7 @@ export const WorkOrderFormModal: React.FC<WorkOrderFormModalProps> = ({ isOpen, 
         <div className="flex-1 flex justify-between items-center text-sm">
             <div className="truncate">
                 <span className="font-medium text-white block">{task.title}</span>
-                <span className="text-xs text-gray-400">{task.id}</span>
+                <span className="text-xs text-gray-400">{task.taskNumber}</span>
             </div>
         </div>
     );

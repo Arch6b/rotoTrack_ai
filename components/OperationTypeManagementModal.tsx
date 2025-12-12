@@ -91,7 +91,7 @@ export const OperationTypeManagementModal: React.FC<OperationTypeManagementModal
     
     // Memoized list for display, reacting to filter changes.
     const displayedOpTypes = useMemo(() => {
-        const sorted = [...localOpTypes].sort((a, b) => a.id.localeCompare(b.id));
+        const sorted = [...localOpTypes].sort((a, b) => a.code.localeCompare(b.code));
         if (showInactive) {
             return sorted;
         }
@@ -136,7 +136,7 @@ export const OperationTypeManagementModal: React.FC<OperationTypeManagementModal
                                 <table className="min-w-full text-sm text-left text-gray-300">
                                     <thead className="bg-gray-700/50 text-xs text-gray-300 uppercase tracking-wider">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3">ID (Clave)</th>
+                                            <th scope="col" className="px-6 py-3">Código</th>
                                             <th scope="col" className="px-6 py-3">Nombre</th>
                                             <th scope="col" className="px-6 py-3">Descripción</th>
                                             {showInactive && <th scope="col" className="px-6 py-3">Estado</th>}
@@ -147,7 +147,7 @@ export const OperationTypeManagementModal: React.FC<OperationTypeManagementModal
                                     <tbody className="divide-y divide-gray-700">
                                         {displayedOpTypes.map((opType) => (
                                             <tr key={opType.id} className="hover:bg-gray-700/40 transition-colors">
-                                                <td className="px-6 py-4 font-mono text-sky-400">{opType.id}</td>
+                                                <td className="px-6 py-4 font-mono text-sky-400 font-bold">{opType.code}</td>
                                                 <td className="px-6 py-4 font-medium text-white">{opType.name}</td>
                                                 <td className="px-6 py-4 text-gray-400 max-w-sm truncate">{opType.description}</td>
                                                 {showInactive && (
