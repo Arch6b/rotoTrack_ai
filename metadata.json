@@ -1,0 +1,5 @@
+{
+  "name": "R.T.S. 0.1",
+  "description": "An intelligent application for managing the continuing airworthiness of aircraft fleets, powered by Gemini.",
+  "requestFramePermissions": []
+}
